@@ -61,6 +61,7 @@ class DashboardApiController extends Controller
                 'payload',
                 'response'
             ]);
+        $logs = [] ; 
          return response()->json([
                 'logs' => $logs,
                 'totalReceive' => $totalReceive,
