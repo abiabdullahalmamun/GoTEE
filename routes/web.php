@@ -71,27 +71,30 @@ use App\Http\Controllers\RolePermissionController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\SslCommerzPaymentController;
 use App\Http\Controllers\WebsiteManagementController;
+
+use App\Http\Controllers\Reports\MotorStatusReportController ; 
+
 // use App\Http\Controllers\Reports\BillingReportController;
-use App\Http\Controllers\Reports\RejectReportController ; 
-use App\Http\Controllers\Reports\FormFillReportController ; 
-use App\Http\Controllers\Reports\BiometricReportController ; 
-use App\Http\Controllers\Reports\ExceptionReportController ; 
-use App\Http\Controllers\Reports\TransactionReportController ; 
-use App\Http\Controllers\Reports\SearchDataController ; 
-use App\Http\Controllers\Reports\ReceiveReportController ; 
-use App\Http\Controllers\Reports\FrpReceiveReportController ; 
-use App\Http\Controllers\Reports\StickerReportController ; 
-use App\Http\Controllers\Reports\OverrideReportController; 
-use App\Http\Controllers\Reports\SmsReportController ; 
-use App\Http\Controllers\Reports\Sent2hciReportController ; 
-use App\Http\Controllers\Reports\Rec4mhciReportController ; 
-use App\Http\Controllers\Reports\ReadyCenterReportController; 
-use App\Http\Controllers\Reports\DeliveryReportController ; 
-use App\Http\Controllers\Reports\MissingStickerReportController ; 
-use App\Http\Controllers\Reports\UndeliveredReportController ; 
-use App\Http\Controllers\Reports\ActivityReportController;
-use App\Http\Controllers\Reports\TokenReportController ;
-use App\Http\Controllers\Reports\DigitizationReportController ; 
+// use App\Http\Controllers\Reports\RejectReportController ; 
+// use App\Http\Controllers\Reports\FormFillReportController ; 
+// use App\Http\Controllers\Reports\BiometricReportController ; 
+
+// use App\Http\Controllers\Reports\TransactionReportController ; 
+// use App\Http\Controllers\Reports\SearchDataController ; 
+// use App\Http\Controllers\Reports\ReceiveReportController ; 
+// use App\Http\Controllers\Reports\FrpReceiveReportController ; 
+// use App\Http\Controllers\Reports\StickerReportController ; 
+// use App\Http\Controllers\Reports\OverrideReportController; 
+// use App\Http\Controllers\Reports\SmsReportController ; 
+// use App\Http\Controllers\Reports\Sent2hciReportController ; 
+// use App\Http\Controllers\Reports\Rec4mhciReportController ; 
+// use App\Http\Controllers\Reports\ReadyCenterReportController; 
+// use App\Http\Controllers\Reports\DeliveryReportController ; 
+// use App\Http\Controllers\Reports\MissingStickerReportController ; 
+// use App\Http\Controllers\Reports\UndeliveredReportController ; 
+// use App\Http\Controllers\Reports\ActivityReportController;
+// use App\Http\Controllers\Reports\TokenReportController ;
+// use App\Http\Controllers\Reports\DigitizationReportController ; 
 use App\Http\Controllers\Reports\DBqueryController ; 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -161,205 +164,20 @@ Route::middleware('auth')->group(function () {
         Route::delete('/users/{id}', [UserManagementController::class, 'destroy'])->name('users.destroy');
     });
  
-    // Route::middleware('permission:can_view')->group(function () {
-    //     Route::get('/create', [PasswordController::class, 'create'])->name('password.create');
-    // });
    
-//FCMS Date Jun 9, ,2025
-    Route::controller(ShopController::class)
-    ->middleware('permission:can_view')->group(function () {
-        Route::get('/shops', 'index')->name('shops.index');
-        Route::post('/shops', 'store')->name('shops.store');
-        Route::put('/shops/{shop}', 'update')->name('shops.update');
-        Route::delete('/shops/{shop}', 'destroy')->name('shops.destroy');
-    });
+    //GoTEE 5.0 Report Sep 23, 2026
 
-    Route::controller(OperatorController::class)
-    ->middleware('permission:can_view')->group(function () {
-        Route::get('/operators', 'index')->name('operators.index');
-        Route::post('/operators', 'store')->name('operators.store');
-        Route::put('/operators/{operator}', 'update')->name('operators.update');
-        Route::delete('/operators/{operator}', 'destroy')->name('operators.destroy');
-        Route::get('/operator-shop/{operator}', 'OprShop')->name('operators.assign');
-        Route::put('/operatorShopUpdate', 'updateAssign')->name('operators.updateAssign');
-    });
-    
-    /* Route::controller(TerminalController::class)
-    ->middleware('permission:can_view')->group(function () {
-        Route::get('/terminals', 'index')->name('terminals.index');
-        Route::post('/terminals', 'store')->name('terminals.store');
-        Route::put('/terminals/{terminal}', 'update')->name('terminals.update');
-        Route::delete('/terminals/{terminal}', 'destroy')->name('terminals.destroy');
-        Route::get('/terminals-shop/{terminal}', 'assign')->name('terminals.assign');
-        Route::put('/terminalsShopUpdate', 'updateAssign')->name('terminals.updateAssign');
-    }); */
-
-
-
-    Route::controller(TransactionReportController::class)
-        ->middleware('permission:can_view')->group(function () {
-            Route::get('/transaction-reports', 'index')->name('transaction-reports.index');
-            Route::get('/billing-summary-reports', 'billingSummaryReport')->name('reports.billing-summary');
-            Route::get('/reports/room-booking-calendar', 'roomBookingCalendar')->name('reports.room-booking-calendar');
-            Route::get('/reports/payment-history-report', 'paymentHistoryReport')->name('reports.patyment-history-report');
-            Route::get('/reports/user-booking-report', 'userBookingReport')->name('reports.user-booking-report');
-
-        });
-
-
-
-    Route::middleware('permission:can_view')->group(function () {
-        Route::get('/searchTransactions', [TransactionReportController::class, 'searchTx'])->name('transaction-reports.searchTx');     
-
-    });
-
-    //delete rejected files.....
-    Route::middleware('permission:can_delete')->group(function () {
-        Route::delete('/rejectReport-delete/{id}', [RejectReportController::class, 'destroy'])->name('rejectReport.destroy');
-    });
-    
-    //Reject Report Jan 12, 2025
+    //MOTOR STATUS Report Sep 23, 2026
     Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/rejectReport', [RejectReportController::class, 'index'])->name('rejectReport.index');
-        Route::get('/rejectReport/export-excel', [RejectReportController::class, 'exportExcel'])->name('rejectReport.excel');
-        Route::get('/rejectReport/export-pdf', [RejectReportController::class, 'exportPDF'])->name('rejectReport.pdf');
-    });
-
-    //Form Fill Report Dec 24, 2025
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/formfill-Report', [FormFillReportController::class, 'index'])->name('formfill-Report.index');
-        Route::get('/formfill-Report/export-excel', [FormFillReportController::class, 'exportExcel'])->name('formfill-Report.excel');
-        Route::get('/formfill-Report/export-pdf', [FormFillReportController::class, 'exportPDF'])->name('formfill-Report.pdf');
-        // Route::get('/Receive-Report-summary', [FormFillReportController::class, 'summary'])->name('Receive-Report.summary');
-    });
-
-    // IVAC Date 02-07-2025 abi   REPORTS
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/Receive-Report', [ReceiveReportController::class, 'index'])->name('Receive-Report.index');
+        Route::get('/motor-status', [MotorStatusReportController::class, 'index'])->name('motor-status.index');
      
-        Route::get('/Receive-Report/export-excel', [ReceiveReportController::class, 'exportExcel'])->name('Receive-Report.excel');
-        Route::get('/Receive-Report/export-pdf', [ReceiveReportController::class, 'exportPDF'])->name('Receive-Report.pdf');
-
-        Route::get('/Receive-Report-summary', [ReceiveReportController::class, 'summary'])->name('Receive-Report.summary');
-    });
-
-    // IVAC Date jan 20 2026 abi   REPORTS
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/frpReceiveReport', [FrpReceiveReportController::class, 'index'])->name('frpReceiveReport.index');
-     
-        Route::get('/frpReceiveReport/export-excel', [FrpReceiveReportController::class, 'exportExcel'])->name('frpReceiveReport.excel');
-        // Route::get('/Receive-Report/export-pdf', [FrpReceiveReportController::class, 'exportPDF'])->name('frpReceiveReport.pdf');
-
-        Route::get('/frpReceiveReport-summary', [FrpReceiveReportController::class, 'summary'])->name('frpReceiveReport.summary');
-    });
-
-    // Route::get('/frpVisaFax-print', [FrpReceiveController::class, 'print'])->name('frpVisaFax.print');
-
-
-    //Exception report Dec 23, 2025
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/exception-Report', [ExceptionReportController::class, 'index'])->name('exception-Report.index');
-     
-        Route::get('/exception-Report/export-excel', [ExceptionReportController::class, 'exportExcel'])->name('exception-Report.excel');
-        Route::get('/exception-Report/export-pdf', [ExceptionReportController::class, 'exportPDF'])->name('exception-Report.pdf');
+        Route::get('/motor-status/export-excel', [MotorStatusReportController::class, 'exportExcel'])->name('motor-status.excel');
+        Route::get('/motor-status/export-pdf', [MotorStatusReportController::class, 'exportPDF'])->name('motor-status.pdf');
 
         // Route::get('/exception-Report-summary', [ExceptionReportController::class, 'summary'])->name('exception-Report.summary');
     });
 
-
-
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/token-Report', [TokenReportController::class, 'index'])->name('token-Report.index');
-     
-        Route::get('/token-Report/export-excel', [TokenReportController::class, 'exportExcel'])->name('token-Report.excel');
-        Route::get('/token-Report/export-pdf', [TokenReportController::class, 'exportPDF'])->name('token-Report.pdf');
-
-        Route::get('/token-Report-summary', [TokenReportController::class, 'summary'])->name('token-Report.summary');
-    });
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/sticker-Report', [StickerReportController::class, 'index'])->name('sticker-Report.index');
-        // Route::post('/sticker-Report', [StickerReportController::class, 'search'])->name('sticker-Report.search');
-       Route::get('/sticker-Report/export-excel', [StickerReportController::class, 'exportExcel'])->name('sticker-Report.excel');
-        Route::get('/sticker-Report/export-pdf', [StickerReportController::class, 'exportPDF'])->name('sticker-Report.pdf');
-    });
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/override-Report', [OverrideReportController::class, 'index'])->name('override-Report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/override-Report/export-excel', [OverrideReportController::class, 'exportExcel'])->name('override-Report.excel');
-        Route::get('/override-Report/export-pdf', [OverrideReportController::class, 'exportPDF'])->name('override-Report.pdf');
-    });
-
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/sms-report', [SmsReportController::class, 'index'])->name('sms-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/sms-report/export-excel', [SmsReportController::class, 'exportExcel'])->name('sms-report.excel');
-        Route::get('/sms-report/export-pdf', [SmsReportController::class, 'exportPDF'])->name('sms-report.pdf');
-    });
-
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/sent2hci-report', [Sent2hciReportController::class, 'index'])->name('sent2hc-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/sent2hc-report/export-excel', [Sent2hciReportController::class, 'exportExcel'])->name('sent2hc-report.excel');
-        Route::get('/sent2hc-report/export-pdf', [Sent2hciReportController::class, 'exportPDF'])->name('sent2hc-report.pdf');
-    });
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/rec4mhci-report', [Rec4mhciReportController::class, 'index'])->name('rec4mhci-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/rec4mhci-report/export-excel', [Rec4mhciReportController::class, 'exportExcel'])->name('rec4mhci-report.excel');
-        Route::get('/rec4mhci-report/export-pdf', [Rec4mhciReportController::class, 'exportPDF'])->name('rec4mhci-report.pdf');
-    });
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/readyCenter-report', [ReadyCenterReportController::class, 'index'])->name('readyCenter-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/readyCenter-report/export-excel', [ReadyCenterReportController::class, 'exportExcel'])->name('readyCenter-report.excel');
-        Route::get('/readyCenter-report/export-pdf', [ReadyCenterReportController::class, 'exportPDF'])->name('readyCenter-report.pdf');
-    });
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/delivery-report', [DeliveryReportController::class, 'index'])->name('delivery-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/delivery-report/export-excel', [DeliveryReportController::class, 'exportExcel'])->name('delivery-report.excel');
-        Route::get('/delivery-report/export-pdf', [DeliveryReportController::class, 'exportPDF'])->name('delivery-report.pdf');
-    });
-
-//BIOMETRIC REPORT Dec 24, 2025
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/biometric-report', [BiometricReportController::class, 'index'])->name('biometric-report.index');
-       Route::get('/biometric-report/export-excel', [BiometricReportController::class, 'exportExcel'])->name('biometric-report.excel');
-        Route::get('/biometric-report/export-pdf', [BiometricReportController::class, 'exportPDF'])->name('biometric-report.pdf');
-    });
-
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/missing-sticker', [MissingStickerReportController::class, 'index'])->name('missing-sticker.index');
-
-        Route::post('/missing-sticker', [MissingStickerReportController::class, 'search'])->name('missing-sticker.search');
-     
-        Route::get('/missing-sticker/export-excel', [MissingStickerReportController::class, 'exportExcel'])->name('missing-sticker.excel');
-        Route::get('/missing-sticker/export-pdf', [MissingStickerReportController::class, 'exportPDF'])->name('missing-sticker.pdf');
-    });
-
-    //DIGITIZATION REPORT 
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/digitization-report', [DigitizationReportController::class, 'index'])->name('digitization-report.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/digitization-report/export-excel', [DigitizationReportController::class, 'exportExcel'])->name('digitization-report.excel');
-        Route::get('/digitization-report/export-pdf', [DigitizationReportController::class, 'exportPDF'])->name('digitization-report.pdf');
-        Route::get('/digitization-report-summary', [DigitizationReportController::class, 'summary'])->name('digitization-report.summary');
-    });
-    
-    //UNDERLIVERED REPORT 
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/undelivered-pass', [UndeliveredReportController::class, 'index'])->name('undelivered-pass.index');
-        // Route::post('/override-Report', [StickerReportController::class, 'search'])->name('override-Report.search');
-       Route::get('/undelivered-pass/export-excel', [UndeliveredReportController::class, 'exportExcel'])->name('undelivered-pass.excel');
-        Route::get('/undelivered-pass/export-pdf', [UndeliveredReportController::class, 'exportPDF'])->name('undelivered-pass.pdf');
-    });
-    
-    //Daily Activity Report
-    Route::middleware(['permission:can_view'])->group(function () {
-        Route::get('/daily-activity', [ActivityReportController::class, 'index'])->name('daily-activity.index');
-        Route::get('/daily-activity/export-excel', [ActivityReportController::class, 'exportExcel'])->name('daily-activity.excel');
-        Route::get('/daily-activity/export-pdf', [ActivityReportController::class, 'exportPDF'])->name('daily-activity.pdf');
-    });
+ 
 
     //QUERY BUILDER 
     Route::middleware(['permission:can_view'])->group(function () {

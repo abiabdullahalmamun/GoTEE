@@ -6,6 +6,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                 'resources/js/scripts/motorReport.js',
+
+
                 'resources/css/app.css',
                 'resources/css/frontend.css',
                 'resources/js/app.js',

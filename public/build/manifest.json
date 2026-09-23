@@ -83,7 +83,7 @@
     "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
   },
   "resources/css/app.css": {
-    "file": "assets/app-By0Ae5I5.css",
+    "file": "assets/app-C45Maiww.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
@@ -377,6 +377,18 @@
     "isEntry": true,
     "imports": [
       "_dataTables-CHR-Id-R.js",
+      "__commonjsHelpers-D6-XlEtG.js"
+    ]
+  },
+  "resources/js/scripts/motorReport.js": {
+    "file": "assets/motorReport-Bf5ec2Ln.js",
+    "name": "motorReport",
+    "src": "resources/js/scripts/motorReport.js",
+    "isEntry": true,
+    "imports": [
+      "_dataTables-CHR-Id-R.js",
+      "_buttons.dataTables-C2RkQt0G.js",
+      "_vfs_fonts-OzXxrW-4.js",
       "__commonjsHelpers-D6-XlEtG.js"
     ]
   },
