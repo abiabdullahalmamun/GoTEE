@@ -43,18 +43,18 @@
                         <thead class="bg-gray-100">
                             <tr>
                                 <th class="px-4 py-2 text-left">SL</th>
-                                <th class="px-4 py-2 text-left">Unit Name</th>
+                               
                                 <th class="px-4 py-2 text-left">DeviceID</th>
                                 <th class="px-4 py-2 text-left">Device Type</th>
                                 <th class="px-4 py-2 text-left">IP Address</th>
                                 <th class="px-4 py-2 text-left">MAC Address</th>
-                                <!-- <th class="px-4 py-2 text-left">Location</th> -->
+                                <th class="px-4 py-2 text-left">SewingID</th>
                                 <th class="px-4 py-2 text-left">Last Com.</th>
                                 <th class="px-4 py-2 text-left">Created By</th>
                                 <th class="px-4 py-2 text-left">LED</th>
                                 <th class="px-4 py-2 text-left">Message</th>
-                                <!-- <th class="px-4 py-2 text-left">Created At</th> -->
-                                <!-- <th class="px-4 py-2 text-left">Updated At</th> -->
+                                <th class="px-4 py-2 text-left">Version</th>
+                                <th class="px-4 py-2 text-left">perpc</th>
                                 <th class="px-4 py-2 text-left">Status</th>
                                 <th class="px-4 py-2 text-right">Actions</th>
                             </tr>
@@ -63,14 +63,13 @@
                             @forelse ($query as $key => $data)
                                 <tr class="hover:bg-gray-50 transition">
                                     <td class="px-4 py-2">{{ ++$key }}</td>
-                                    <td class="px-4 py-2">{{ $data->center?->center_name }}</td>
-                                     <td class="px-4 py-2">{{ $data->devID }}</td>
+                                      <td class="px-4 py-2">{{ $data->devID }}</td>
                                     <td class="px-4 py-2">
                                         {{ $data->devType == 1 ? 'Linker' : ($data->devType == 2 ? 'Mender' : 'Unknown') }}
                                     </td>
                                     <td class="px-4 py-2">{{ $data->ip }}</td>
                                     <td class="px-4 py-2">{{ $data->mac }}</td>
-                                    <!-- <td class="px-4 py-2">{{ $data->location }}</td> -->
+                                    <td class="px-4 py-2">{{ $data->sewingmcId }}</td>
                                     <td class="px-4 py-2">{{ $data->lastCom }}</td>
                                     <td class="px-4 py-2">{{ $data->user?->name }}</td>
                                   
@@ -98,6 +97,8 @@
                         </span>
                     </td>
                                     <td class="px-4 py-2">{{ $data->message }}</td>
+                                     <td class="px-4 py-2">{{ $data->version }}</td>
+                                      <td class="px-4 py-2">{{ $data->pcSec }}</td>
                                     <td class="px-4 py-2">
                                         <span class="text-xs font-medium mr-2 px-2.5 py-0.5 rounded
                                             {{ $data->status

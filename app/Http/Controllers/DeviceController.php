@@ -54,49 +54,28 @@ class DeviceController extends Controller
     {
        // dd($request->all());
         try {
-            if($request->input('devType')==2){
-               if (!$request->filled('serviceId')) {
-                    return redirect()->route('devices.index')->with('error', 'Please select Service for Display!.');
-                }
-            }
+            // if($request->input('devType')==2){
+            //    if (!$request->filled('serviceId')) {
+            //         return redirect()->route('devices.index')->with('error', 'Please select Service for Display!.');
+            //     }
+            // }
 
             $data = $request->validated();
             // dd($data) ; 
-            $center = Center::select('region_id')->where('id', $data['cenId'])->first() ; 
+            // $center = Center::select('region_id')->where('id', $data['cenId'])->first() ; 
 
             $save=Device::create([
-                'regionId'     => $center->region_id,
-                'centerId'   => $data['cenId'],
+                 'devID'   => $data['devID'],
                  'devType'   => $data['devType'],
-                 'ip'   => $data['ip'],
                  'mac'   => $data['mac'],
-                 'location'   => $data['location'],
                  'created_by'   => $data['created_by'],
                 'status'   => $data['status'],
+                'motor_state'   => 0,
                 'created_at'=> now(),
                 'updated_at'=>now()
             ]);
             if($save){
-                $lastId = $save->id;
-                // dd($lastId ) ; 
-                if($data['devType']=='2'){
-                    for($i=0; $i<count($data['serviceId']);$i++){
-                          // dd('iff') ;    
-                       $insert=DeviceSvc::create([
-                            'centerId'   => $data['cenId'],
-                             'devId'   => $lastId,
-                             'svcId'   =>$data['serviceId'][$i],
-                             'rowcount'   => 5,
-                          
-                            'status'   => $data['status'],
-                            'created_at'=> now(),
-                            'updated_at'=>now()
-                        ]);
-
-                    }
-
-                }
-
+             
                 return redirect()->route('devices.index')->with('success', 'Data Inserted successfully.');
             }
             else{

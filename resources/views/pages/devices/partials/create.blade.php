@@ -2,28 +2,26 @@
     @csrf
     @method('POST')
     <div class="row">
-        <div class="mb-3 col-12 col-md-4 col-lg-6">
-            <div class="form-group flex-1">
-               <label for="name">Center</label><br>
-               <select class="form-control w-full px-3 py-2 border" name="cenId" required="required" id="cenId">
-                <option value=""></option>
-                @foreach($centerList as $item)
-                <option value="{{ $item['id'] }}">{{ $item['center_name'] }}</option>
-                @endforeach
-                </select>     
-                @error('center_name')
+ 
+<div class="mb-3 col-12 col-md-4 col-lg-6">
+    <div class="form-group flex-1">
+       <label for="name">DeviceID</label><br>
+       <input type="text" name="devID"
+                       class="form-control @error('devID') is-invalid @enderror w-full px-3 py-2 border rounded"
+                       value="{{ old('devID') }}"  required>
+         @error('devID')
                     <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-
+        @enderror
+    </div>
+</div>
 <div class="mb-3 col-12 col-md-4 col-lg-6">
     <div class="form-group flex-1">
        <label for="name">Device Type</label><br>
        <select class="form-control w-full px-3 py-2 border" name="devType" required="required" id="devType">
             <option value=""></option>
-            <option value="1">KIOSK</option>
-            <option value="2">DISPLAY</option>
+            <option value="1">SEWING</option>
+            <option value="2">QC</option>
+            <option value="3">INPUT</option>
         </select>     
         @error('devType')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -60,28 +58,7 @@
                 @enderror
             </div>
         </div>
-       <div class="mb-3 col-12 col-md-4 col-lg-6">
-            <div class="form-group flex-1">
-                <label for="startHr">IP</label><br>
-                <input type="text" name="ip"
-                       class="form-control @error('ip') is-invalid @enderror w-full px-3 py-2 border rounded"
-                       value="{{ old('ip') }}"  >
-                @error('ip')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
-    <div class="mb-3 col-12 col-md-4 col-lg-6">
-            <div class="form-group flex-1">
-                <label for="startHr">Location</label><br>
-                <input type="text" name="location"
-                       class="form-control @error('location') is-invalid @enderror w-full px-3 py-2 border rounded"
-                       value="{{ old('location') }}"  >
-                @error('location')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-        </div>
+ 
         <div class="mb-4 w-full md:w-1/2 lg:w-1/3">
             <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <div class="flex items-center space-x-3">
