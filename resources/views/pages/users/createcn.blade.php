@@ -1,0 +1,109 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="mx-auto ">
+        <!-- Page Header Component -->
+
+        <div class=" max-w-full mx-auto">
+            <x-page-header title="Create New User" />
+        </div>
+        <!-- User Create Form -->
+        <div class="bg-white shadow rounded p-6 mt-1 max-w-full mx-auto">
+            <form action="{{ route('users.store') }}" method="POST">
+                @csrf
+                <!-- Form Grid: Responsive Layout -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Name Field -->
+                    <div class="w-full">
+                        <label for="name" class="block text-gray-700 font-semibold mb-1">Name</label>
+                        <input type="text" id="name" name="name" value="{{ old('name') }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500"
+                               placeholder="Enter full name" required>
+                        @error('name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Username/Email Field -->
+                    <div class="w-full">
+                        <label for="email" class="block text-gray-700 font-semibold mb-1">Username / Email</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}"
+                               class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500"
+                               placeholder="Enter email" required>
+                        @error('email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Role Dropdown -->
+                    <div class="w-full">
+                        <label for="role" class="block text-gray-700 font-semibold mb-1">Select Role</label>
+                        <select name="role_id" id="role" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500" required>
+                            <option value="">-- Select Role --</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('role_id')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="w-full relative">
+                        <label for="password" class="block text-gray-700 font-semibold mb-1">Password</label>
+                        <input type="password" id="password" name="password"
+                               class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500"
+                               placeholder="Enter password" required>
+                        <i id="eye-icon" class="fas fa-eye absolute right-3 top-10 cursor-pointer text-gray-500"
+                           ></i>
+                        @error('password')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+
+                        <!-- Password Strength Bar -->
+                        <div class="mt-2">
+                            <div class="h-2 w-full bg-gray-200 rounded overflow-hidden">
+                                <div id="password-strength-bar" class="h-2 bg-gray-300 strength-bar"></div>
+                            </div>
+                            <p id="password-strength-text" class="text-xs text-gray-600 mt-1">Strength</p>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="w-full">
+                        <label for="password_confirmation" class="block text-gray-700 font-semibold mb-1">Confirm Password</label>
+                        <input type="password" id="password_confirmation" name="password_confirmation"
+                               class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500"
+                               placeholder="Confirm password" required>
+                        <p id="password-match-text" class="text-xs mt-1"></p>
+                    </div>
+                    <div class="w-full">
+                        <label for="role" class="block text-gray-700 font-semibold mb-1">Select Center</label>
+                        <select name="centerId" id="centerId" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring focus:ring-blue-300 focus:border-blue-500" required>
+                            @foreach($center as $itm)
+                                <option value="{{ $itm->id }}">{{ $itm->center_name }}</option>
+                            @endforeach
+                        </select>
+                        @error('center')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+
+
+
+
+                <!-- Submit Button -->
+                <div class="mt-6 text-right">
+                    <button type="submit"
+                            class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition">
+                        Create User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+@endsection

@@ -1,0 +1,151 @@
+{
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-D1LuMI3I.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-D_cYUPeE.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-DZaxPHgR.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-BjRzuEpd.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-regular-400.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-D0aA9rwL.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-CTAAxXor.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf": {
+    "file": "assets/fa-v4compatibility-CCth-dXg.ttf",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.ttf"
+  },
+  "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2": {
+    "file": "assets/fa-v4compatibility-C9RhG_FT.woff2",
+    "src": "node_modules/@fortawesome/fontawesome-free/webfonts/fa-v4compatibility.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DKnSk40w.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/flatpickr.min.css": {
+    "file": "assets/flatpickr-CfPf6HP5.css",
+    "src": "resources/css/flatpickr.min.css",
+    "isEntry": true
+  },
+  "resources/css/frontend.css": {
+    "file": "assets/frontend-CfoVro7X.css",
+    "src": "resources/css/frontend.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BuXFeF7o.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-DKASsYT5.css"
+    ]
+  },
+  "resources/js/scripts/bill_head.js": {
+    "file": "assets/bill_head-qwiXu9br.js",
+    "name": "bill_head",
+    "src": "resources/js/scripts/bill_head.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/billing_reports.js": {
+    "file": "assets/billing_reports-BHpZtgIP.js",
+    "name": "billing_reports",
+    "src": "resources/js/scripts/billing_reports.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/flatpickr.min.js": {
+    "file": "assets/flatpickr.min-Bkh_Zwz8.js",
+    "name": "flatpickr.min",
+    "src": "resources/js/scripts/flatpickr.min.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/floor.js": {
+    "file": "assets/floor-BJhD1u8q.js",
+    "name": "floor",
+    "src": "resources/js/scripts/floor.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/frontend.js": {
+    "file": "assets/frontend-Dqeiok4U.js",
+    "name": "frontend",
+    "src": "resources/js/scripts/frontend.js",
+    "isEntry": true,
+    "css": [
+      "assets/frontend-CJ-KzOvo.css"
+    ]
+  },
+  "resources/js/scripts/index_script.js": {
+    "file": "assets/index_script-Cnj7BHQQ.js",
+    "name": "index_script",
+    "src": "resources/js/scripts/index_script.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/menu.js": {
+    "file": "assets/menu-1wMvSnVJ.js",
+    "name": "menu",
+    "src": "resources/js/scripts/menu.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/otp.js": {
+    "file": "assets/otp-CpEVoRaA.js",
+    "name": "otp",
+    "src": "resources/js/scripts/otp.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/password_status.js": {
+    "file": "assets/password_status-B683qxAs.js",
+    "name": "password_status",
+    "src": "resources/js/scripts/password_status.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/role.js": {
+    "file": "assets/role-QEhrXa3g.js",
+    "name": "role",
+    "src": "resources/js/scripts/role.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/role_permissions.js": {
+    "file": "assets/role_permissions-Fhr9xoyP.js",
+    "name": "role_permissions",
+    "src": "resources/js/scripts/role_permissions.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/room.js": {
+    "file": "assets/room-CvkvJWQr.js",
+    "name": "room",
+    "src": "resources/js/scripts/room.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/room_types.js": {
+    "file": "assets/room_types-Bzp14Toa.js",
+    "name": "room_types",
+    "src": "resources/js/scripts/room_types.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/script.js": {
+    "file": "assets/script-CU0f9gG3.js",
+    "name": "script",
+    "src": "resources/js/scripts/script.js",
+    "isEntry": true
+  },
+  "resources/js/scripts/user_ranks.js": {
+    "file": "assets/user_ranks-BfLSZ5o_.js",
+    "name": "user_ranks",
+    "src": "resources/js/scripts/user_ranks.js",
+    "isEntry": true
+  }
+}

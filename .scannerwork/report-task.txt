@@ -1,0 +1,6 @@
+projectKey=badmin
+serverUrl=http://localhost:9000
+serverVersion=9.9.1.69595
+dashboardUrl=http://localhost:9000/dashboard?id=badmin
+ceTaskId=AZWJANYV1o2GnraVO0cu
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AZWJANYV1o2GnraVO0cu

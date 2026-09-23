@@ -1,0 +1,238 @@
+/* Base Styles */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    /* overflow-y: scroll; */
+}
+body {
+    font-family: 'Arial', sans-serif;
+    scroll-behavior: smooth;
+    line-height: 1.6;
+    background: #f8f9fa;
+    color: #333;
+}
+
+
+
+
+/* Topbar */
+.topbar {
+    background: #343a40;
+    color: #fff;
+    padding: 15px 0;
+}
+
+.company-name {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+/* Slider */
+.swiper-container.slider {
+    height: 560px;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive Slider Height */
+@media (max-width: 768px) {
+    .swiper-container.slider {
+        height: 250px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .swiper-container.slider {
+        height: 350px;
+    }
+}
+
+/* About Section */
+.about h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+#about-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+/* Services Section */
+.services {
+    overflow-x: hidden;
+}
+.services h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.service-card {
+    transition: transform 0.3s ease-in-out;
+    padding: 10px;
+}
+
+.service-card .card {
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.service-card img {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+/* Gallery Section */
+.gallery h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.gallery img {
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+}
+
+.footer h5 {
+    margin-bottom: 15px;
+}
+
+.footer a {
+    color: #f8f9fa;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+.service-carousel {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Shimmer Animation for Skeleton Screens */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton-shimmer {
+    background: linear-gradient(120deg, #e1ffe2 8%, #58bc88 18%, #89dca5 33%);
+    background-size: 200% 100%;
+    animation: shimmer 4.5s infinite;
+}
+
+@keyframes textColorCycle {
+    0% {
+        color: var(--primary);              /* Text Color */
+        -webkit-text-stroke: 3px var(--white); /* Stroke Color */
+    }
+    50% {
+        color: var(--white);              /* Text Color */
+        -webkit-text-stroke: 3px var(--primary); /* Stroke Color */
+    }
+    100% {
+        color: var(--primary);              /* Text Color */
+        -webkit-text-stroke: 3px var(--white); /* Stroke Color */
+    }
+}
+
+.animate-welcome {
+    animation: textColorCycle 6s infinite ease-in-out;
+}
+
+.service-item{
+    border:2px solid var(--primary-dark) !important;
+}
+
+.gallery-item{
+    border:2px solid var(--primary) !important;
+}
+
+
+
+ .animate-pop-in {
+     animation: popIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+     opacity: 0;
+     transform: translateY(20px);
+ }
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Click effect animation */
+.cta-button:active {
+    animation: clickEffect 0.3s ease-out;
+}
+
+@keyframes clickEffect {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.f-topbar-area{
+	background: linear-gradient(45deg, #2196F3, #004c89) !important;
+
+}
+.f-service-area{
+    background: linear-gradient(181deg, #00cb6a, #056c07, #086e3d) !important;
+}
+
+.f-footer-area{
+    background: linear-gradient(138deg, #2196f3, #004c89);
+}

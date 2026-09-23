@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+.env
+public/storage
+resources/js/scripts
+app/Console/Commands
+public/dgCheck.php
+public/issueToken.php
+#routes/console.php
