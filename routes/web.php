@@ -9,56 +9,62 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\Reports\AuditLogReportController;
 use App\Http\Controllers\RoleController;
 
-// use App\Http\Controllers\RoomController;
-// use App\Http\Controllers\BureauController;
-use App\Http\Controllers\ShopController;
+use App\Http\Controllers\QCentryController ; 
+use App\Http\Controllers\DeviceController ;
+use App\Http\Controllers\OrderNoController ;
+use App\Http\Controllers\FloorController ;
+use App\Http\Controllers\LineController ;
+use App\Http\Controllers\LineQCController ;
+use App\Http\Controllers\StickerPrintController ;
+
+// use App\Http\Controllers\ShopController;
 use App\Http\Controllers\OperatorController ; 
 use App\Http\Controllers\SmsController ; 
-use App\Http\Controllers\CallTokenController ; 
-use App\Http\Controllers\AppReceiveController ;
-use App\Http\Controllers\FrpReceiveController ; 
-use App\Http\Controllers\Send2HCIController ; 
-use App\Http\Controllers\Accept4mHCIController ; 
-use App\Http\Controllers\Reject4mHCIController ; 
-use App\Http\Controllers\Direct4mHCIController ; 
-use App\Http\Controllers\ManualAppReceiveController ; 
-use App\Http\Controllers\ReadyCenterController ; 
-use App\Http\Controllers\BiometricController ; 
-use App\Http\Controllers\FormFillController ; 
-use App\Http\Controllers\ReadyDelDeleteController; 
-use App\Http\Controllers\CenterDeliveryController ; 
-use App\Http\Controllers\Send2MOFAController ; 
-use App\Http\Controllers\StageUpdateController ; 
-use App\Http\Controllers\ReadyDelActController ; 
-use App\Http\Controllers\CodeUpdateController ; 
-use App\Http\Controllers\AcceptRejectController ; 
-use App\Http\Controllers\BackupController ; 
-use App\Http\Controllers\VisaDurationController ;
-use App\Http\Controllers\MoneyReceiptController ;
-use App\Http\Controllers\CurrencyRateController ; 
-use App\Http\Controllers\EntryTypeController ; 
-use App\Http\Controllers\TokenOverrideController ; 
-use App\Http\Controllers\Forms4mHCIController ; 
-use App\Http\Controllers\PortReceiveController ;
-use App\Http\Controllers\DigitizationScanController ; 
-use App\Http\Controllers\WebfileEditController ; 
-use App\Http\Controllers\AptOverrideController ;
-use App\Http\Controllers\ApprovalController ;  
-use App\Http\Controllers\AptListImportController ;
-use App\Http\Controllers\AdjustUndeliveredController ; 
-use App\Http\Controllers\StickerController ;
-use App\Http\Controllers\StickerPrintController ;
-use App\Http\Controllers\RegionController ;
-use App\Http\Controllers\CenterController ;
-use App\Http\Controllers\ServiceController ;
-use App\Http\Controllers\CounterController ;
-use App\Http\Controllers\DeviceController ;
+// use App\Http\Controllers\CallTokenController ; 
+// use App\Http\Controllers\AppReceiveController ;
+// use App\Http\Controllers\FrpReceiveController ; 
+// use App\Http\Controllers\Send2HCIController ; 
+// use App\Http\Controllers\Accept4mHCIController ; 
+// use App\Http\Controllers\Reject4mHCIController ; 
+// use App\Http\Controllers\Direct4mHCIController ; 
+// use App\Http\Controllers\ManualAppReceiveController ; 
+// use App\Http\Controllers\ReadyCenterController ; 
+// use App\Http\Controllers\BiometricController ; 
+// use App\Http\Controllers\FormFillController ; 
+// use App\Http\Controllers\ReadyDelDeleteController; 
+// use App\Http\Controllers\CenterDeliveryController ; 
+// use App\Http\Controllers\Send2MOFAController ; 
+// use App\Http\Controllers\StageUpdateController ; 
+// use App\Http\Controllers\ReadyDelActController ; 
+// use App\Http\Controllers\CodeUpdateController ; 
+// use App\Http\Controllers\AcceptRejectController ; 
+// use App\Http\Controllers\BackupController ; 
+// use App\Http\Controllers\VisaDurationController ;
+// use App\Http\Controllers\MoneyReceiptController ;
+// use App\Http\Controllers\CurrencyRateController ; 
+// use App\Http\Controllers\EntryTypeController ; 
+// use App\Http\Controllers\TokenOverrideController ; 
+// use App\Http\Controllers\Forms4mHCIController ; 
+// use App\Http\Controllers\PortReceiveController ;
+// use App\Http\Controllers\DigitizationScanController ; 
+// use App\Http\Controllers\WebfileEditController ; 
+// use App\Http\Controllers\AptOverrideController ;
+// use App\Http\Controllers\ApprovalController ;  
+// use App\Http\Controllers\AptListImportController ;
+// use App\Http\Controllers\AdjustUndeliveredController ; 
+// use App\Http\Controllers\StickerController ;
+
+// use App\Http\Controllers\RegionController ;
+// use App\Http\Controllers\CenterController ;
+// use App\Http\Controllers\ServiceController ;
+// use App\Http\Controllers\CounterController ;
+
 use App\Http\Controllers\HolidayController ;
-use App\Http\Controllers\VisaTypeController ;
-use App\Http\Controllers\StickerTypeController ; 
-use App\Http\Controllers\PortNameController ;
-use App\Http\Controllers\RejectReasonController ;
-use App\Http\Controllers\CorrectionTypeController ;
+// use App\Http\Controllers\VisaTypeController ;
+// use App\Http\Controllers\StickerTypeController ; 
+// use App\Http\Controllers\PortNameController ;
+// use App\Http\Controllers\RejectReasonController ;
+// use App\Http\Controllers\CorrectionTypeController ;
 
 
 // use App\Http\Controllers\MemberController;
@@ -98,7 +104,7 @@ use App\Http\Controllers\Reports\MotorStatusReportController ;
 use App\Http\Controllers\Reports\DBqueryController ; 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
-
+use App\Events\CardScanned;
 
 
 Route::get('/clear-all', function () {
@@ -135,6 +141,13 @@ Route::get('/', [HomeController::class, 'signin'])->name('website.index');
 // Route::get('/mess-policy/pdf', [HomeController::class, 'messPolicyPDF'])->name('website.messPolicyPDF');
 
 
+Route::get('/test-card', function () {
+    event(new CardScanned('TEST123', '21001'));
+
+    return 'Card event sent';
+});
+
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
@@ -166,6 +179,106 @@ Route::middleware('auth')->group(function () {
  
    
     //GoTEE 5.0 Report Sep 23, 2026
+
+    Route::middleware('permission:can_view')->group(function () {
+        Route::get('/qc-entry', [QCentryController::class, 'index'])->name('qc-entry.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/qc-entry', [QCentryController::class, 'store'])->name('qc-entry.store');
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/qc-entry/{id}', [QCentryController::class, 'destroy'])->name('qc-entry.destroy');
+    });
+
+    Route::get('/check-qc-card', [QCentryController::class, 'checkQCcard'])->name('check-qc-card');
+//devices management
+    Route::middleware('permission:can_view')->group(function () {
+        Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
+    });
+    Route::middleware('permission:can_edit')->group(function () {
+        Route::put('/devices/{device}', [DeviceController::class, 'update'])->name('devices.update');
+        Route::get('/device-service/{device}', [DeviceController::class, 'DevSvc'])->name('devices.assign');
+        Route::put('/deviceSvcUpdate',  [DeviceController::class, 'updateAssign'])->name('devices.updateAssign');
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/devices/{device}',[DeviceController::class, 'destroy'])->name('devices.destroy');
+    });
+
+
+//
+    //Order management
+    Route::middleware('permission:can_view')->group(function () {
+        Route::get('/orders', [OrderNoController::class, 'index'])->name('orders.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/orders', [OrderNoController::class, 'store'])->name('orders.store');
+    });
+    Route::middleware('permission:can_edit')->group(function () {
+        Route::put('/orders/{device}', [OrderNoController::class, 'update'])->name('orders.update');
+        Route::get('/device-service/{device}', [OrderNoController::class, 'DevSvc'])->name('orders.assign');
+        Route::put('/deviceSvcUpdate',  [OrderNoController::class, 'updateAssign'])->name('orders.updateAssign');
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/orders/{device}',[OrderNoController::class, 'destroy'])->name('orders.destroy');
+    });
+
+//QR Stricker
+   Route::middleware('permission:can_view')->group(function () {
+        Route::get('/print-barcode-sticker', [StickerPrintController::class, 'index'])->name('barcode-sticker.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/print-sticker-barcode', [StickerPrintController::class, 'store'])->name('barcode-sticker.store');
+    });
+
+//Floor Management 
+    Route::middleware('permission:can_view')->group(function () {
+        Route::get('/floor-list', [FloorController::class, 'index'])->name('floor-list.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/floor-list', [FloorController::class, 'store'])->name('floor-list.store');
+    });
+   Route::middleware('permission:can_edit')->group(function () {
+        Route::put('/floor-list/{device}', [FloorController::class, 'update'])->name('floor-list.update');
+   
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/floor-list/{device}',[FloorController::class, 'destroy'])->name('floor-list.destroy');
+    });
+
+    //Line Management
+        Route::middleware('permission:can_view')->group(function () {
+        Route::get('/line-list', [LineController::class, 'index'])->name('line-list.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/line-list', [LineController::class, 'store'])->name('line-list.store');
+    });
+   Route::middleware('permission:can_edit')->group(function () {
+        Route::put('/line-list/{device}', [LineController::class, 'update'])->name('line-list.update');
+  
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/line-list/{device}',[LineController::class, 'destroy'])->name('line-list.destroy');
+    });
+//lineQC Terminals 
+    Route::middleware('permission:can_view')->group(function () {
+        Route::get('/lineQC-terminal', [LineQCController::class, 'index'])->name('lineQC-terminal.index');
+    });
+    Route::middleware('permission:can_create')->group(function () {
+        Route::post('/lineQC-terminal', [LineQCController::class, 'store'])->name('lineQC-terminal.store');
+    });
+   Route::middleware('permission:can_edit')->group(function () {
+        Route::put('/lineQC-terminal/{device}', [LineQCController::class, 'update'])->name('lineQC-terminal.update');
+   
+    });
+    Route::middleware('permission:can_delete')->group(function () {
+        Route::delete('/lineQC-terminal/{device}',[LineQCController::class, 'destroy'])->name('lineQC-terminal.destroy');
+    });
+
+
+
 
     //MOTOR STATUS Report Sep 23, 2026
     Route::middleware(['permission:can_view'])->group(function () {
@@ -208,12 +321,7 @@ Route::middleware('auth')->group(function () {
     //     Route::get('/Receive-Report', [ReceiveReportController::class, 'index'])->name('Receive-Report.index');   
     //     Route::post('/Receive-Report', [ReceiveReportController::class, 'search'])->name('Receive-Report.search');      
     // });
-   Route::middleware('permission:can_view')->group(function () {
-        Route::get('/print-barcode-sticker', [StickerPrintController::class, 'index'])->name('barcode-sticker.index');
-    });
-    Route::middleware('permission:can_create')->group(function () {
-        Route::post('/print-sticker-barcode', [StickerPrintController::class, 'store'])->name('barcode-sticker.store');
-    });
+
 
     Route::middleware('permission:can_view')->group(function () {
         Route::get('/apt-override', [AptOverrideController::class, 'index'])->name('apt-override.index');
@@ -650,21 +758,7 @@ Route::middleware('auth')->group(function () {
     ->name('countercall.enable');
 	
 
-	Route::middleware('permission:can_view')->group(function () {
-        Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
-    });
-    Route::middleware('permission:can_create')->group(function () {
-        Route::post('/devices', [DeviceController::class, 'store'])->name('devices.store');
-    });
-   Route::middleware('permission:can_edit')->group(function () {
-        Route::put('/devices/{device}', [DeviceController::class, 'update'])->name('devices.update');
-        Route::get('/device-service/{device}', [DeviceController::class, 'DevSvc'])->name('devices.assign');
-        Route::put('/deviceSvcUpdate',  [DeviceController::class, 'updateAssign'])->name('devices.updateAssign');
 
-    });
-    Route::middleware('permission:can_delete')->group(function () {
-        Route::delete('/devices/{device}',[DeviceController::class, 'destroy'])->name('devices.destroy');
-    });
 	
 	
 	Route::middleware('permission:can_view')->group(function () {

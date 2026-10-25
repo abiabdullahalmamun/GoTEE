@@ -28,6 +28,9 @@ class MotorStatus extends Model
     {
         return $this->belongsTo(Employee::class, 'operatorId');
     }
-   
+    public function bundle()
+    {
+        return $this->belongsTo(BundleInfo::class, 'bundleId');
+    }
 
 }

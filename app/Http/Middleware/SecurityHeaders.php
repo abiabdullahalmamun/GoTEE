@@ -70,11 +70,12 @@ class SecurityHeaders
             "style-src 'self' 'unsafe-inline'",
             "img-src 'self' data:",
             "font-src 'self'",
-            "connect-src 'self'",
+            // "connect-src 'self'", edited on sep 27, 2026 abi
+            "connect-src 'self' ws://localhost:8080 wss://localhost:8080",
             "media-src 'self'",
             "worker-src 'self'",
             "manifest-src 'self'",
-            "upgrade-insecure-requests",
+            // "upgrade-insecure-requests",   //commented for test only
         ];
 
         $response->headers->set('Content-Security-Policy', implode('; ', $csp));

@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class StoreOrderNoRequest  extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function prepareForValidation()
+    {
+        // $rules = $this->rules();
+        // $fields = array_keys($rules);
+
+        $this->merge([
+            'created_by' => auth()->user()->id,
+            'created_at' => \Carbon\Carbon::now(),
+        ]);
+    }
+
+    public function rules()
+    {
+        return [
+            'OrderNo' => 'required|string', 
+            'OrderCode' => 'required|numeric', 
+            'attr' => 'nullable|string', 
+            'Style' => 'nullable|string', 
+            'buyer' => 'nullable|numeric', 
+            'status' =>  'required|in:0,1',
+            'created_by'  =>'required|numeric', 
+            'totalsmv'   => 'nullable|numeric',
+            'item'   => 'nullable|string',     
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            // 'cenId.required' => 'The CenterId is required.',
+            'OrderNo.required' => 'The devType field must be a number.',
+            'OrderCode.required' => 'The mac field is required.',
+            'status.required' => 'The status field is required.',
+            
+        ];
+    }
+
+
+}

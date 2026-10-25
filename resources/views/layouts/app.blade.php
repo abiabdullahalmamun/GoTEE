@@ -22,14 +22,17 @@
 </head>
 
 <body>
-    <div id="app" class="main">
 
+    <div id="app" class="main">
+   
         <!-- Topbar -->
         @include('layouts.topbar')
 
         <div class="main-container">
             <!-- Primary Sidebar -->
+            <!-- @if (!session()->has('device_id')) -->
             @include('layouts.sidebar')
+            <!-- @endif -->
 
 
             <!-- Main Content -->

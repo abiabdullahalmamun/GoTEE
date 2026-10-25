@@ -18,7 +18,29 @@
             @endphp
 
 
-<div class="bg-white rounded-lg shadow p-4 mb-4 border-l-4 border-indigo-500">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+
+
+    <!-- History chart -->
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">Linewise production</h2>
+        </div>
+        <div class="flex-1" style="height: 300px;">
+            <canvas id="linewiseProduction" class="w-full h-full"></canvas>
+        </div>
+    </div>
+        <!-- Center chart -->
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold text-gray-800">Today's Operation</h2>
+        </div>
+        <div class="flex-1" style="height: 300px;"> 
+            <canvas id="centerBarChart" class="w-full h-full"></canvas>
+        </div>
+    </div>
+</div>
+<!-- <div class="bg-white rounded-lg shadow p-4 mb-4 border-l-4 border-indigo-500">
 
     <table class="w-full text-sm">
         <thead class="text-gray-500 font-medium border-b">
@@ -36,7 +58,7 @@
     </table>
 
 </div>
-
+ -->
  
 
 </div>

@@ -28,7 +28,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // dd('uu') ; 
+        // dd($request) ; 
+        $referer = $request->header('referer');
+        // dd( $referer) ; 
+        if ($referer) {
+            parse_str(parse_url($referer, PHP_URL_QUERY), $params);
+
+            if (!empty($params['dev'])) {
+                session(['device_id' => $params['dev']]);
+            }
+        }
+
+        $deviceId = session('device_id');
+
+        // dd($deviceId) ; 
         // 1. Check if the user is currently rate limited
         $this->checkTooManyFailedAttempts($request);
 

@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBarcodeRequest;
 use App\Http\Requests\UpdateRegionRequest;
-use App\Models\Region;
-use App\Models\Center;
+
+use App\Models\OrderNo ; 
 use App\Models\StickerMap;
 use App\Models\StickerPrintLog;
+use App\Models\BundleInfo;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,13 +26,10 @@ class StickerPrintController extends Controller
         $search = $request->input('search');
 
         try {
-
-            $stickerTypeList = StickerMap::select('sticker','centerId','id',)->orderBy('sticker','asc')->get();
-            $centerList = Center::select('center_name','id')->where('status',1)->orderBy('center_name','asc')->get();
+            $orderList = OrderNo::where('status',1)->get() ; 
 
            return view('pages.BarcodeSticker.index', [
-                'stickerTypeList' => $stickerTypeList,
-                'centerList' => $centerList,
+                'orderList' => $orderList,
             ]);
      
         } catch (Exception $e) {
@@ -40,15 +38,7 @@ class StickerPrintController extends Controller
         }
     }
 
-            // Shop::create([
-            //         'ShopName'=> $r->name,
-            //         'Contact'=>$r->Contact,
-            //         'message'=>$r->mess,
-            //         'status'=>1,
-            //         'created_by'=>Auth::user()->user_id,
-            //         'created_at'=>Date('Y-m-d H:i:s'),
-            //         'updated_at'=>Date('Y-m-d H:i:s')
-            //     ]);
+ 
     /**
      * Store a newly created resource in storage.
      */
@@ -60,74 +50,44 @@ class StickerPrintController extends Controller
              // dd($data) ; 
             $data = $request->validated();
             // dd($data) ; 
-            $cn = Center::select('center_name')->where('id', $data['centerId'])->first() ; 
-            $st = StickerMap::select('sticker')->where('id',$data['sticker'] )->first();
             // dd($st->sticker) ; 
             $selectedDate = Date('Y-m-d',strtotime($data['date']));
             $date = Date('ymd',strtotime($data['date']));
-            $sticker = $st->sticker;
-            $center = substr($cn->center_name,0,2);
-          
+            // $sticker = $st->sticker;
+            // $center = substr($cn->center_name,0,2);
+            $ord = OrderNo::where('OrderCode',$data['orderCode'])->first() ; 
+            // dd($ord) ; 
             $startNo =$data['start_number'];
             $endNo = $data['end_number'];
-            $barcode = '@'.$center.$date.$sticker;
-            
-                        // $userId  = Auth::user()->user_id;
-            StickerPrintLog::create([
-                'Date'=>$selectedDate,
-                'stickerId'=>  $data['sticker'],
-                'startNo'=> $data['start_number'],
-                'endNo'=> $data['end_number'],
-                'created_by'=> $data['created_by'],
-                'centerId'=>$data['centerId'],
-                'created_at'=>Date('Y-m-d H:i:s'),
-                'updated_at'=>Date('Y-m-d H:i:s'),
-            ]);
+            // $barcode = '@'.$center.$date.$sticker;
+      
+              $ids = [];
+            for ($i = $startNo; $i <= $endNo; $i++) {
 
-            $stickerId = $data['sticker'];
-            $centerId  = $data['centerId'];
+                $record = BundleInfo::updateOrCreate(
+                    [
+                        'bundle_no' => $i,
+                        'CutNo'     => 1,
+                        'OrderCode' => $data['orderCode'],
+                    ],
+                    [
+                        'Date'       => $selectedDate,
+                        'batchNo'    => 1,
+                        'bundle_qty' => 1,
+                        'operator'   => $data['created_by'],
+                    ]
+                );
 
-            $overlaps = StickerPrintLog::where('stickerId', $stickerId)
-                ->where('centerId', $centerId)
-                ->where('Date', $selectedDate)
-                ->where(function ($q) use ($startNo, $endNo) {
-                    $q->where('startNo', '<=', $endNo)
-                      ->where('endNo', '>=', $startNo);
-                })
-                ->get();
-
-            $duplicates = [];
-
-            if ($overlaps->count() > 0) {
-                // Count each sticker number in overlapping ranges
-                foreach ($overlaps as $row) {
-                    $from = max($row->startNo, $startNo);
-                    $to   = min($row->endNo, $endNo);
-
-                    for ($i = $from; $i <= $to; $i++) {
-                        $duplicates[$i] = ($duplicates[$i] ?? 0) + 1;
-                    }
-                }
-
-                // Keep only numbers that occur more than once
-                $duplicates = array_filter($duplicates, fn($count) => $count > 1);
-
-                if (!empty($duplicates)) {
-                    ActionExceptionService::store([
-                        'module'      => 'Duplicate Sticker',
-                        'action'      => 'DuplicateSticker',
-                        'centerId'      => $centerId ,
-                        'remarks'     => json_encode(array_keys($duplicates)), // save only duplicated numbers
-                    ]);
-                }
+                $ids[] = $record->id;
             }
-
-
-
-
             // dd($dataB) ; 
-            return view('pages.BarcodeSticker.sticker_barcode_print', [
-                'barcode' => $barcode,
+            return view('pages.BarcodeSticker.qr_code_print', [
+                'ids' => $ids,
+                'orderCode' =>$data['orderCode'] ,
+                 'OrderNo' =>  $ord->OrderNo ,
+                 'attr' => $ord->attr ,
+                'Style' => $ord->Style ,
+                 'buyer' => $ord->buyer ,
                 'startNo' => $startNo,
                 'endNo' =>  $endNo,
             ]);

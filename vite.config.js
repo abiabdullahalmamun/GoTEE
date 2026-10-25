@@ -7,7 +7,13 @@ export default defineConfig({
         laravel({
             input: [
                  'resources/js/scripts/motorReport.js',
-
+                 'resources/js/scripts/qcEntry.js',
+                'resources/js/scripts/device.js',    
+                 'resources/js/scripts/lineQCdev.js',    
+                 'resources/js/scripts/floor.js',    
+                 'resources/js/scripts/line.js',   
+                 'resources/js/scripts/orderNo.js',    
+                   'resources/js/scripts/qrCodePrint.js',    
 
                 'resources/css/app.css',
                 'resources/css/frontend.css',
@@ -56,7 +62,7 @@ export default defineConfig({
                'resources/js/scripts/acceptReject.js',             
                 'resources/js/scripts/visatype.js',  
                'resources/js/scripts/holiday.js',    
-                'resources/js/scripts/device.js',    
+               
                  'resources/js/scripts/user.js',   
                 'resources/js/scripts/recReport.js',  
                 'resources/js/scripts/dbquery.js',  

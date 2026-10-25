@@ -36,8 +36,8 @@ class StoreBarcodeRequest  extends FormRequest
     public function rules()
     {
         return [
-            'centerId' => 'required|numeric', 
-            'sticker' => 'required|numeric', 
+            'orderCode' => 'required|numeric', 
+            // 'sticker' => 'required|numeric', 
              'start_number' => 'required|numeric', 
               'end_number' => 'required|numeric', 
             'created_by' => 'nullable|numeric',
@@ -48,8 +48,8 @@ class StoreBarcodeRequest  extends FormRequest
     public function messages()
     {
         return [
-            'centerId.required' => 'The centerId is required.',
-             'sticker.required' => 'The sticker is required.',
+            // 'centerId.required' => 'The centerId is required.',
+             // 'sticker.required' => 'The sticker is required.',
               'start_number.required' => 'The start_number is required.',
                'end_number.required' => 'The end_number is required.',
                 'date.required' => 'The date is required.',

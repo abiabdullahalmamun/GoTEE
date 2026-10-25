@@ -27,16 +27,16 @@ class LogAuthenticationEvents
             ]
         ]);
          $user = auth()->user()->id ; 
-          $updateEx = Counter::where('loginId',$user)->update([
-                'loginstate'  => 0, 
-                 'enCall'  =>  1, 
-                'loginId'  =>  null, 
-                'tokenno'  =>  null, 
-                'autoMan'  =>  null, 
-                'visaType'  =>  null, 
-                'stickerType'  =>  null, 
-                'updated_at'=>now()
-            ]);  
+          // $updateEx = Counter::where('loginId',$user)->update([
+          //       'loginstate'  => 0, 
+          //        'enCall'  =>  1, 
+          //       'loginId'  =>  null, 
+          //       'tokenno'  =>  null, 
+          //       'autoMan'  =>  null, 
+          //       'visaType'  =>  null, 
+          //       'stickerType'  =>  null, 
+          //       'updated_at'=>now()
+          //   ]);  
     }
 
     public function handleFailed($event)

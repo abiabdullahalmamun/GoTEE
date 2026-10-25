@@ -110,7 +110,7 @@
                                     <td class="px-4 py-2 text-center">
                                         {!! $data->devType == 2 ? '<a href="'.route('devices.assign', $data->id).'" class="bg-primary text-white px-2 py-1 rounded hover:bg-orange-500"><i class="fas fa-eye"></i></a>'  : '' 
                                         !!}
-                                      <!--   <a href="{{ route('operators.assign', $data->id) }}" class="bg-primary text-white px-2 py-1 rounded  hover:bg-orange-500"> <i class="fas fa-eye"></i></a> -->
+                               
                                         <button onclick="editDevice({{ $data }})"
                                             class="bg-gray-300 hover:bg-yellow-500 text-white px-2 py-1 mx-1 rounded"
                                             title="Edit">

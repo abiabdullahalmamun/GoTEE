@@ -1,6 +1,7 @@
 <header class="topbar">
     <div class="topbar-left flex items-center">
-        <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+
+        <button type="button" class="menu-toggle"><i class="fas fa-bars"></i></button>
         <!-- Website Button -->
         <a title="Go to Website" href="{{ URL::to('/dashboard') }}" class="relative text-white transition duration-300
                    after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-0.5

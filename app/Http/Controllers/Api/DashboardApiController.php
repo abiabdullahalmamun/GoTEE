@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\ApiLog ;
+use App\Models\LineEFF ;
 use App\Models\DataReplication ;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -13,33 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardApiController extends Controller
 {
-
-    private function monthlyStepStats($stepId)
-    {
-        $now = now();
-        $lastMonth = $now->copy()->subMonth();
-
-        // Current month count
-        $current = AppLog::where('stepId', $stepId)
-            ->whereMonth('Date', $now->month)
-            ->whereYear('Date', $now->year)
-            ->count();
-
-        // Last month count
-        $previous = AppLog::where('stepId', $stepId)
-            ->whereMonth('Date', $lastMonth->month)
-            ->whereYear('Date', $lastMonth->year)
-            ->count();
-
-        // Percent change (with division safety)
-        $change = $previous > 0 ? (($current - $previous) / $previous) * 100 : 0;
-        // $changeFormatted = ($change >= 0 ? '+' : '') . number_format($change, 1) . '%';
-
-        return [
-            'current' => $current,
-            'change' => $change,
-        ];
-    }
 
     public function getMetrics()
     {
@@ -52,22 +26,40 @@ class DashboardApiController extends Controller
         $lastMonth = $now->copy()->subMonth();
          $totalReceive = 0 ; 
          $servers = [];
- 
-         $logs = ApiLog::latest('id')
-            ->take(15)
-            ->get([
-                'created_at',
-                'api',
-                'payload',
-                'response'
+
+        $lineProduction = LineEFF::with('lineData:id,lineID')
+            ->where('Date', date('Y-m-d'))
+            ->select('id', 'line', 'pcsQty')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'lineID' => $item->lineData->lineID ?? $item->line,
+                    'pcsQty' => $item->pcsQty,
+                ];
+            })
+            ->values();
+            
+            return response()->json([
+                'totalReceive'  => $totalReceive,
+                'logs'          => $servers,
+                'lineProduction' => $lineProduction,
             ]);
-        $logs = [] ; 
-         return response()->json([
-                'logs' => $logs,
-                'totalReceive' => $totalReceive,
+        // $logs = LineEFF::with('lineData:id,lineID')
+        //     ->where('Date', date('Y-m-d'))
+        //     ->select('id', 'line', 'pcsQty')
+        //     ->get();
+
+        // $labels = $logs->map(function ($item) {
+        //     return $item->lineData->lineID ?? $item->line;
+        // })->values();
+
+        // $dataSet = $logs->pluck('pcsQty')->values();
+
+        // return response()->json([
+        //     'labels'  => $labels,
+        //     'dataSet' => $dataSet,
+        // ]);
  
-            ]);
-       
     }
 
     public function getRecentBookings()

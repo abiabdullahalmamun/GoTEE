@@ -96,6 +96,8 @@
 						<th class="text-center">Start</th>
 						<th class="text-center">Stop</th>
 						<th class="text-center">Run</th>
+						<th class="text-center">Bundle</th>
+						<th class="text-center">Size</th>
 						<th class="text-center">rms</th>
 						<th class="text-center">operator</th>
 						<th class="text-center">created_at</th>
@@ -110,6 +112,8 @@
 						<td class="text-center">{{ mb_substr($row->mt_start, 0, 16)}}</td>
 						<td class="text-center">{{ mb_substr($row->mt_stop, 0, 16)}}</td>
 						<td class="text-left">{{ $row->mt_run ?? '' }}</td>
+						<td class="text-left">{{ $row->bundleId ?? '' }}</td>
+						<td class="text-left">{{ $row->bundle->size ?? '' }}</td>
 						<td class="text-left">{{ $row->ac_rms ?? '' }}</td>
 						<td class="text-left">{{ $row->employee->emp_name ?? '' }}</td>
 					 	<td class="text-center">{{ mb_substr($row->created_at, 0, 16)}}</td>

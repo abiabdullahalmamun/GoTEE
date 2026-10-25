@@ -52,7 +52,9 @@
 
 
             # CSP Header (Adjust based on your app's requirements)
-            Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; media-src 'self'; object-src 'self'; frame-src 'self' http://120.89.64.198:8090;"
+            Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https: ws://localhost:8080 wss://localhost:8080; media-src 'self'; object-src 'self'; frame-src 'self' http://128.199.125.186;"
+
+            #Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; media-src 'self'; object-src 'self'; frame-src 'self' http://120.89.64.198:8090;"
 
             # HSTS (Enable only after SSL is properly configured)
             # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"

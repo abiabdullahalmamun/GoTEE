@@ -1,0 +1,1 @@
+function t(){try{var e=window.AppInventor.getWebViewString();alert(e)}catch{alert("nooo")}}window.onload=t;document.addEventListener("DOMContentLoaded",()=>{const e=document.getElementById("web");document.getElementById("remarks"),document.getElementById("latest-records"),e&&e.focus()});
