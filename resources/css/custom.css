@@ -1,9 +1,14 @@
 /* Declare variable */
 :root {
-    --primary: #0063b3;
+ /*   --primary: #0063b3;
     --primary-opt: rgb(0 158 83 / 82%);
     --primary-dark: #004c89;
-    --topbar-secondary: #2196f3;
+    --topbar-secondary: #2196f3;*/
+    --primary: #673ab7;
+    --primary-opt: rgb(149 117 205 / 82%);
+    --primary-dark: #4527a0;
+    --topbar-secondary: #9575cd;
+
     --label-primary: #e5f3ff;
     --label-primary-light: #f9fff9;
     --white: #FFF;
@@ -88,12 +93,12 @@ a {
 
  
 /* Kodular WebView: hidden by default */
-#app.app-webview .main-container .sidebar {
+/*#app.app-webview .main-container .sidebar {
     display: none !important;
-}
+}*/
 
 /* Kodular WebView: visible when JavaScript adds .open */
-#app.app-webview .main-container .sidebar.open {
+/*#app.main .main-container .sidebar.open {
     display: flex !important;
     position: fixed !important;
     top: 55px !important;
@@ -106,22 +111,46 @@ a {
     overflow: hidden;
     z-index: 1000 !important;
     background: var(--white);
-}
+}*/
 
 /* Keep the hamburger button above the sidebar */
-#app.app-webview .topbar .menu-toggle {
+/*#app.app-webview .topbar .menu-toggle {
     display: inline-block !important;
     position: relative;
     z-index: 1101;
     pointer-events: auto;
+}*/
+.bg-primary-opt {
+    background: linear-gradient(135deg, #673ab7 0%, #9575cd 50%, #b39ddb 100%);
+    border-color: #4527a0;
 }
 
-
 /* Topbar */
+/*.topbar {
+    width: 100%;
+    height: 55px;
+    background: linear-gradient(90deg, var(--primary-dark), var(--topbar-secondary));
+    color: var(--white);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+}*/
 .topbar {
     width: 100%;
     height: 55px;
-    background: linear-gradient(90deg, var(--primary), var(--topbar-secondary));
+
+    background: linear-gradient(
+        90deg,
+        #9575cd 0%,
+        #673ab7 55%,
+        #4527a0 100%
+    ) !important;
+
     color: var(--white);
     display: flex;
     justify-content: space-between;
@@ -147,6 +176,47 @@ a {
     gap: 10px; /* Spacing between username and avatar */
 }
 
+.purple-footer {
+    background: linear-gradient(
+        90deg,
+        #9575cd 0%,
+        #673ab7 55%,
+        #4527a0 100%
+    ) !important;
+}
+
+.purple-footer-bottom {
+    background: #311b92 !important;
+}
+.purple-front-topbar {
+    background: linear-gradient(
+        90deg,
+        #9575cd 0%,
+        #673ab7 55%,
+        #4527a0 100%
+    ) !important;
+}
+
+.light-purple-footer {
+    background: linear-gradient(
+        90deg,
+        #ede7f6 0%,
+        #d1c4e9 55%,
+        #b39ddb 100%
+    );
+    color: #4527a0;
+}
+
+.light-purple-footer-link {
+    color: #4527a0;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.light-purple-footer-link:hover {
+    color: #311b92;
+    text-decoration: underline;
+}
 /* Username text */
 .username {
     font-size: 16px;
@@ -329,7 +399,7 @@ a {
 }
 /* Menu Toggle Button */
 .menu-toggle {
-    display: none;
+    /*display: none;*/  
     background: none;
     border: none;
     color: var(--white);

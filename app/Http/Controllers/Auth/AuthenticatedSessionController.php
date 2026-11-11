@@ -30,16 +30,16 @@ class AuthenticatedSessionController extends Controller
     {
         // dd($request) ; 
         $referer = $request->header('referer');
-        // dd( $referer) ; 
+       
         if ($referer) {
             parse_str(parse_url($referer, PHP_URL_QUERY), $params);
-
+            // dd($params) ; 
             if (!empty($params['dev'])) {
                 session(['device_id' => $params['dev']]);
             }
         }
 
-        $deviceId = session('device_id');
+        // $deviceId = session('device_id');
 
         // dd($deviceId) ; 
         // 1. Check if the user is currently rate limited
@@ -134,12 +134,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $deviceId = $request->session()->get('device_id');
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
+        if (!empty($deviceId)) {
+            $request->session()->put('device_id', $deviceId);
+        }
         return redirect('/');
     }
 }

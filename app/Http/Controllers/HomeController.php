@@ -65,7 +65,13 @@ class HomeController extends Controller
         return view('frontend.service_item',$data);
     }
 
-    public function signin(){
+    public function signin(Request $request){
+        $deviceId = $request->query('dev');
+
+        if (!empty($deviceId)) {
+            $request->session()->put('device_id', $deviceId);
+        }
+        // dd($deviceId) ; 
         return view('frontend.signin');
     }
 

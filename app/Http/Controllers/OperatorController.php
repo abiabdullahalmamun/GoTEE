@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreOperatorRequest;
 use App\Http\Requests\UpdateOperatorRequest;
 use App\Models\Employee;
+use App\Models\EmpDesignation;
+use App\Models\EmpGrade;
 use App\Models\EmpShop;
 use App\Models\Shop;
 // use App\Models\User;
@@ -12,6 +14,8 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Services\ActionExceptionService;
+
 
 class OperatorController extends Controller
 {
@@ -25,8 +29,9 @@ class OperatorController extends Controller
 
         try {
 
-            $query = Employee::query()->latest('id');
-
+            $query = Employee::query()       
+                             ->with(['grade', 'desig', 'user'])
+                             ->latest('id');
             if ($search) {
                 $query->where(function ($query) use ($search) {
                     $fillableColumns = (new Floor)->getFillable();
@@ -35,12 +40,14 @@ class OperatorController extends Controller
                     }
                 });
             }
-
+            $designation= EmpDesignation::where('status',1)->get() ;
+            $grade = EmpGrade::where('status',1)->get() ;
             $query = $query->paginate($perPage);
 
-            return view('pages.operators.index', with(['query' => $query]));
+            return view('pages.operators.index', with(['query' => $query,'designation' => $designation,'grade' => $grade]));
 
         } catch (Exception $e) {
+            dd($e->getMessage()  ); 
             info('Error showing operators!', [$e]);
 
             return redirect()->back()->with('error', 'operator showing failed!.');
@@ -123,11 +130,16 @@ class OperatorController extends Controller
                 'company_id'=> 10005,
                 'emp_id'     => $data['emp_id'],
                 'emp_name'   => $data['emp_name'],
+                 'emp_desig'   => $data['designation'],
+                'emp_type'   => $data['optyppe'],
+                'present_grade'   => $data['grade'],
+                 'gender1'   => $data['gender1'],
+                'Date_of_join'   => $data['dateofjoin'],
+                 'evaluation'   => $data['evaluation'],
+               'present_salary'   => $data['salary'],
+                 'remarks'   => $data['remarks'],
                 'card_id'    =>   $card,               //$data['card_id'],
                 'status'     => 1,
-                'emp_type'   =>2, // assuming this is intentional
-                'pin'        =>  $data['pin'], 
-
                 'created_by'=> $data['created_by'],
                 'created_at'=>Date('Y-m-d H:i:s'),
                 'updated_at'=>Date('Y-m-d H:i:s')
@@ -160,17 +172,34 @@ class OperatorController extends Controller
             $cardex = Employee::select('id','emp_id', 'emp_name')->where('card_id',$data['card_id'])->where('status',1)->orderBy('id','desc')->first() ; 
 
             if($cardex){
-                if($cardex->id==$data['id']){
-                   
-                    $is_update = Employee::where('id',$data['id'])->update([
+                if($cardex->id==$data['recId']){
+                    $record = Employee::find($data['recId']) ;  
+                    $is_update = Employee::where('id',$data['recId'])->update([
                         'emp_id'     => $data['emp_id'],
                         'emp_name'   => $data['emp_name'],
-                        'card_id'    => $data['card_id'],               //$data['card_id'],
-                        'pin'        =>  $data['pin'], 
+                        // 'card_id'    => $data['card_id'],               //$data['card_id'],
+                        'emp_desig'   => $data['designation'],
+                        'emp_type'   => $data['optyppe'],
+                        'present_grade'   => $data['grade'],
+                         'gender1'   => $data['gender1'],
+                        'Date_of_join'   => $data['dateofjoin'],
+                         'evaluation'   => $data['evaluation'],
+                       'present_salary'   => $data['salary'],
+                         'remarks'   => $data['remarks'],
+                        'status'     => $data['status'],
                         'updated_at'=>Date('Y-m-d H:i:s')
+
                     ]);
 
                     if($is_update){
+                        ActionExceptionService::store([
+                            'module'      => 'OperatorInfo',
+                            'action'      => 'Deleted',
+                            'centerId'      => 1 ,
+                            'remarks'     => $record, 
+                            'changeLog'      =>  $data,
+                        ]);
+
                         return redirect()->route('operators.index')->with('success',$data['emp_id'].' Updated Successfully');    
                     }
                 } 
@@ -233,15 +262,35 @@ class OperatorController extends Controller
                     return redirect()->route('operators.index')->with('error', $card.' Already assigned to '.$cardex->emp_id.' ('.$cardex->emp_name.')');    
                 }
                 else{
-                    $is_update = Employee::where('id',$data['id'])->update([
+                    $record = Employee::find($data['recId']) ;  
+                    $is_update = Employee::where('id',$data['recId'])->update([
                         'emp_id'     => $data['emp_id'],
                         'emp_name'   => $data['emp_name'],
                         'card_id'    => $card,               //$data['card_id'],
-                        'pin'        =>  $data['pin'], 
+                        'emp_desig'   => $data['designation'],
+                        'emp_type'   => $data['optyppe'],
+                        'present_grade'   => $data['grade'],
+                         'gender1'   => $data['gender1'],
+                        'Date_of_join'   => $data['dateofjoin'],
+                         'evaluation'   => $data['evaluation'],
+                       'present_salary'   => $data['salary'],
+                         'remarks'   => $data['remarks'],
+                        'status'     => $data['status'],
                         'updated_at'=>Date('Y-m-d H:i:s')
+
                     ]);
 
                     if($is_update){
+
+                         ActionExceptionService::store([
+                            'module'      => 'OperatorInfo',
+                            'action'      => 'Deleted',
+                            'centerId'      => 1 ,
+                            'remarks'     => $record, 
+                            'changeLog'      =>  $data,
+                        ]);
+
+
                         return redirect()->route('operators.index')->with('success',$data['emp_id'].' Updated Successfully');    
                     }
                     else{
@@ -258,9 +307,9 @@ class OperatorController extends Controller
             //         'lineDate' => Date('Y-m-d H:i:s'),
             //         'updated_at' => Date('Y-m-d H:i:s'),
             // ]);
-            $operator->update($data);
+            // $operator->update($data);
 
-            return redirect()->route('operators.index')->with('success', 'Floor updated successfully.');
+            // return redirect()->route('operators.index')->with('success', 'Floor updated successfully.');
 // 
         } catch (\Exception $e) {
             $msss = $e->getMessage() ; 
@@ -279,90 +328,103 @@ class OperatorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function OprShop(Employee $operator)
-    {
+    // public function OprShop(Employee $operator)
+    // {
 
-         // dd($operator->id);
-        try {
-            $user = Employee::where('id',$operator->id)->first() ; 
-            // $user = $emm->emp_id ; 
-            // $userName = $emm->emp_name ; 
-            // dd($userName) ; 
-            $empShop = EmpShop::where('empId', $operator->id)->get() ; 
-              // dd($empShop) ; 
-            // $roles = Role::all();
-            $shop = Shop::where('status',1)->latest()->get();
-            return view('pages.operators.empShop', compact('empShop','shop', 'user'));
-
-
-        } catch (\Exception $e) {
-            info('Operator Shop assignement!', [$e]);
-
-            return redirect()->route('operators.index')->with('error', 'operator assignement failed!.');
-        }
-    }
+    //      // dd($operator->id);
+    //     try {
+    //         $user = Employee::where('id',$operator->id)->first() ; 
+    //         // $user = $emm->emp_id ; 
+    //         // $userName = $emm->emp_name ; 
+    //         // dd($userName) ; 
+    //         $empShop = EmpShop::where('empId', $operator->id)->get() ; 
+    //           // dd($empShop) ; 
+    //         // $roles = Role::all();
+    //         $shop = Shop::where('status',1)->latest()->get();
+    //         return view('pages.operators.empShop', compact('empShop','shop', 'user'));
 
 
-    public function updateAssign(Request $request)
-    {
-             // dd($request->all());
-     try {   
-        $emp = Employee::where('id', $request->eid)->first() ; 
+    //     } catch (\Exception $e) {
+    //         info('Operator Shop assignement!', [$e]);
 
-        if($emp){
-            // dd('yes') ; 
-            // dd( $request->assigned_shops) ; 
-            EmpShop::where('empId',$request->eid)->delete();
-            $cn = count($request->assigned_shops) ; 
-            for($i=0; $i<$cn; $i++){
-                //  EmpShop::create([
-                //     'empId'     => $request->eid,
-                //     'shopId'   => $request->assigned_shops[$i],
-                //     'created_at'=>Date('Y-m-d H:i:s'),
-                //     'updated_at'=>Date('Y-m-d H:i:s')
-                // ]);
-                EmpShop::upsert(
-                    [
-                        [
-                            'empId'      => $request->eid,
-                            'shopId'     => $request->assigned_shops[$i],
-                            'created_at' => Date('Y-m-d H:i:s'),
-                            'updated_at' => Date('Y-m-d H:i:s')
-                        ],
-                    ],
-                    ['empId', 'shopId'], // Unique keys to match
-                    ['updated_at']       // Columns to update if exists
-                );
+    //         return redirect()->route('operators.index')->with('error', 'operator assignement failed!.');
+    //     }
+    // }
 
-            }
+
+//     public function updateAssign(Request $request)
+//     {
+//              // dd($request->all());
+//      try {   
+//         $emp = Employee::where('id', $request->eid)->first() ; 
+
+//         if($emp){
+//             // dd('yes') ; 
+//             // dd( $request->assigned_shops) ; 
+//             EmpShop::where('empId',$request->eid)->delete();
+//             $cn = count($request->assigned_shops) ; 
+//             for($i=0; $i<$cn; $i++){
+//                 //  EmpShop::create([
+//                 //     'empId'     => $request->eid,
+//                 //     'shopId'   => $request->assigned_shops[$i],
+//                 //     'created_at'=>Date('Y-m-d H:i:s'),
+//                 //     'updated_at'=>Date('Y-m-d H:i:s')
+//                 // ]);
+//                 EmpShop::upsert(
+//                     [
+//                         [
+//                             'empId'      => $request->eid,
+//                             'shopId'     => $request->assigned_shops[$i],
+//                             'created_at' => Date('Y-m-d H:i:s'),
+//                             'updated_at' => Date('Y-m-d H:i:s')
+//                         ],
+//                     ],
+//                     ['empId', 'shopId'], // Unique keys to match
+//                     ['updated_at']       // Columns to update if exists
+//                 );
+
+//             }
            
-           return redirect()->route('operators.index')->with('success', $cn.' Shops updated successfully.');
+//            return redirect()->route('operators.index')->with('success', $cn.' Shops updated successfully.');
          
            
-        }
-        else{
-            return redirect()->route('operators.index')->with('error', 'Invalid Operator!.');
-        }
+//         }
+//         else{
+//             return redirect()->route('operators.index')->with('error', 'Invalid Operator!.');
+//         }
 
-      } catch (\Exception $e) {
-            info('Shop deleted failed!', [$e]);
- dd($e->getMessage());
-            return redirect()->route('operators.index')->with('error', 'operation failed!.');
-        }
+//       } catch (\Exception $e) {
+//             info('Shop deleted failed!', [$e]);
+//  dd($e->getMessage());
+//             return redirect()->route('operators.index')->with('error', 'operation failed!.');
+//         }
       
-//
-        // return redirect()->route('operators.index')->with('success', 'User updated successfully.');
-    }
+// //
+//         // return redirect()->route('operators.index')->with('success', 'User updated successfully.');
+//     }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $operator): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-         // dd($ops->all());
+        // dd($id) ; 
+         // dd($operator->all());
         try {
-            $operator->delete();
-
-            return redirect()->route('operators.index')->with('success', 'operator deleted successfully.');
+             $record = Employee::find($id) ;  
+             if($record){
+                 $record->delete();
+                ActionExceptionService::store([
+                    'module'      => 'OperatorInfo',
+                    'action'      => 'Deleted',
+                    'centerId'      => 1 ,
+                    'remarks'     => $record, 
+                    'changeLog'      =>  '',
+                ]);
+                return redirect()->route('operators.index')->with('success', 'Data deleted successfully.');
+             }
+             else{
+                   return redirect()->route('operators.index')->with('error', 'Data delete failed .');
+             }
 
         } catch (\Exception $e) {
             info('Shop deleted failed!', [$e]);

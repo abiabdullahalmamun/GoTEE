@@ -12,60 +12,24 @@ class Employee extends Model
     use HasFactory;
 
     protected $table = 'tbl_employee';
-    protected $fillable = ['company_id', 'emp_id', 'emp_name', 'card_id','status','emp_type','created_by','pin'];
+    protected $primaryKey = 'id'; // if this is your PK
+    public $incrementing = true;         // or false if not auto-increment
+    protected $keyType = 'int';
 
-    /**
-     * Get the parent menu.
-     */
-    // public function parent()
-    // {
-    //     return $this->belongsTo(Menu::class, 'parent_id');
-    // }
+    protected $fillable = ['company_id', 'emp_id', 'emp_name', 'emp_desig','Gender','gender1','Date_of_join','evaluation','remarks','present_grade','present_salary','card_id','pin','status','emp_type','created_by','created_at','updated_at','gender1'];
 
-    // /**
-    //  * Get all child menus (submenus or child menus).
-    //  */
-    // public function children()
-    // {
-    //     return $this->hasMany(Menu::class, 'parent_id');
-    // }
-
-    // /**
-    //  * Scope to get only Parent Menus (menus that have no parent).
-    //  */
-    // public function scopeParents($query)
-    // {
-    //     return $query->whereNull('parent_id');
-    // }
-
-    // /**
-    //  * Scope to get only Submenus (menus that have children).
-    //  */
-    // public function scopeSubmenus($query)
-    // {
-    //     return $query->whereHas('children');
-    // }
-
-    /**
-    //  * Scope to get only Child Menus (menus that have a parent but are not parents themselves).
-    //  */
-    // public function scopeChildMenus($query)
-    // {
-    //     return $query->whereNotNull('parent_id')->whereDoesntHave('children');
-    // }
-
-
-    // // Recursive relationship for nested menus
-    // public function childrenRecursive()
-    // {
-    //     return $this->hasMany(Menu::class, 'parent_id')
-    //         ->with('childrenRecursive') // Ensure children are loaded recursively
-    //         ->orderBy('order', 'asc');
-    // }
-
-    // // Relationship: Permissions
-    // public function permissions()
-    // {
-    //     return $this->hasMany(RolePermission::class, 'menu_id');
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+    
+    public function desig()
+    {
+        return $this->belongsTo(EmpDesignation::class, 'emp_desig');
+    }
+    
+    public function grade()
+    {
+        return $this->belongsTo(EmpGrade::class, 'present_grade');
+    }
 }

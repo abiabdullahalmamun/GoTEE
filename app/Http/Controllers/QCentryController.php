@@ -62,7 +62,7 @@ class  QCentryController extends Controller
 
             $deviceId = session('device_id'); 
             $lineID = '';
-            $deviceId = "f5f3b527ddfdd0f2" ; 
+            // $deviceId = "f5f3b527ddfdd0f" ; 
             $operator= '';
             $oprID = '' ; 
             $count = 0 ;
@@ -352,7 +352,7 @@ class  QCentryController extends Controller
             if ($card && $card->cardId) {
 
                $emp = Employee::where('card_id', $card->cardId)
-                    ->where('emp_type', 6)
+                    ->where('emp_type', 2)
                     ->where('status', 1)
                     ->orderBy('id', 'desc')
                     ->first();

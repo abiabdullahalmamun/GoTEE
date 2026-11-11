@@ -4,63 +4,80 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreOperatorRequest  extends FormRequest
+class StoreOperatorRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    public function prepareForValidation()
+    protected function prepareForValidation(): void
     {
-        // $rules = $this->rules();
-        // $fields = array_keys($rules);
-
         $this->merge([
-            'created_by' => auth()->user()->id,
-            'created_at' => \Carbon\Carbon::now(),
+            'created_by' => auth()->id(),
+            'created_at' => now(),
         ]);
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'emp_id' => 'required|string|max:255',
-            'emp_name' => 'required|string',
-            'card_id' => 'required|string', 
+            // Operator Information
+            'optyppe'     => 'required|integer|in:1,2,3,4,5,6,7',
+            'emp_id'      => 'required|string|max:255',
+            'emp_name'    => 'required|string|max:255',
+            'designation' => 'required|integer|exists:tbl_emp_designation,id',
+            'card_id'     => 'required|string|max:255',
 
-            'status' =>  'required|in:0,1', // 'required|string',
-            'pin' => 'required|digits:4',
-            // 'pin' => 'required|string',
-            'created_by' => 'required|numeric',
-            'created_at' => 'required|date',
+            // Personal Information
+            'grade'       => 'required|integer|exists:tbl_emp_grade,id',
+            'gender1'     => 'required|integer|in:1,2,3',
+
+            // Dates
+            'dateofjoin'  => 'required|date',
+            'evaluation'  => 'required|date',
+
+            // Salary and Remarks
+            'salary'      => 'nullable|numeric|min:0',
+            'remarks'     => 'nullable|string|max:1000',
+
+            // Status
+            'status'      => 'required|in:0,1',
+
+            // System Fields
+            'created_by'  => 'required|integer',
+            'created_at'  => 'required|date',
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
-            'emp_id.required' => 'The OperatorId is required.',
-            'emp_id.string' => 'The OperatorId field must be a string.',
-            'emp_name.required' => 'The name field is required.',
-            'emp_name.string' => 'The name field must be a string.',
-            'card_id.required' => 'The card_id field is required.',
-             'card_id.string' => 'The card_id field must be a string.',
-        
-            // 'Contact.string' => 'The description field must be a string.',
-             'pin.digits' => 'The PIN must be exactly 4 digits.',
-            // 'pin.required' => 'The pin field is required.',
-            // 'pin.string' => 'The pin field must be a string.',
+            'optyppe.required' => 'Please select an Operator Type.',
+            'optyppe.in' => 'Invalid Operator Type.',
+
+            'emp_id.required' => 'The Operator ID is required.',
+            'emp_name.required' => 'The Operator Name is required.',
+
+            'designation.required' => 'Please select a Designation.',
+            'card_id.required' => 'The Card ID is required.',
+
+            'grade.required' => 'Please select a Grade.',
+            'gender1.required' => 'Please select a Gender.',
+            'gender1.in' => 'Invalid Gender selection.',
+
+            'dateofjoin.required' => 'The Date of Join is required.',
+            'evaluation.required' => 'The Date of Evaluation is required.',
+
+            'salary.numeric' => 'Salary must be a valid number.',
+            'salary.min' => 'Salary cannot be negative.',
+            'remarks.string' => 'Remarks must be a valid text.',
+
+            'status.required' => 'Please select a Status.',
             'status.in' => 'The status must be either Active or Inactive.',
-            'status.required' => 'The status field is required.',
-            // 'status.boolean' => 'The status field must be a boolean.',
+
             'created_by.required' => 'The created_by field is required.',
-            'created_by.numeric' => 'The created_by field must be a numeric.',
+            'created_at.required' => 'The created_at field is required.',
         ];
     }
-
-
 }

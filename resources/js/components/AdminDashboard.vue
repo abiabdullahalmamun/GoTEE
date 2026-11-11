@@ -83,9 +83,11 @@
                             </button>
                         </div>
                     </div>
+                    <!--
                     <div class="h-64">
                         <BarChart v-if="revenueChartData" :chart-data="revenueChartData" />
                     </div>
+                    -->
                     <div class="mt-4 grid grid-cols-3 gap-4">
                         <div class="text-center">
                             <p class="text-gray-500 text-sm">Current Month</p>

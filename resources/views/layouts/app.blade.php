@@ -24,25 +24,19 @@
 <body>
 
     <div id="app" class="main">
-   
         <!-- Topbar -->
         @include('layouts.topbar')
 
         <div class="main-container">
             <!-- Primary Sidebar -->
-            <!-- @if (!session()->has('device_id')) -->
+
             @include('layouts.sidebar')
-            <!-- @endif -->
-
-
             <!-- Main Content -->
             <main class="content-area">
                 @yield('content')
             </main>
         </div>
     </div>
-
-
 
         <!-- Bottom Status Bar -->
         @include('layouts.footer')

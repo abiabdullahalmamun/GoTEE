@@ -18,6 +18,8 @@ class ActionExceptionService
             'created_at'  => date('Y-m-d H:i:s'),
             'updated_at'  => date('Y-m-d H:i:s'),
             'ip_address'  => request()->ip(),
+            'changeLog'  => $data['changeLog'] ?? null,
+            
         ]);
     }
 }

@@ -18,6 +18,9 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use PhpMqtt\Client\MqttClient;
 use PhpMqtt\Client\ConnectionSettings;
+use App\Services\ActionExceptionService;
+
+
 
 class OrderNoController extends Controller
 {
@@ -105,15 +108,23 @@ public function store(StoreOrderNoRequest $request): RedirectResponse
             $record = OrderNo::where('OrderCode', $data['OrderCode'])->first();
             if($record){
                 $record->OrderNo = $data['OrderNo'];
-                 $record->attr = $data['attr'];
+                $record->attr = $data['attr'];
                 $record->Style = $data['Style'];
                 $record->buyer = $data['buyer'];
-                 $record->status = $data['status'];
+                $record->status = $data['status'];
                 $record->totalsmv  = $data['totalsmv'];
                 $record->item = $data['item'];
                 $record->updated_at = now(); 
                 $record->save(); // Fires 'updated' event → Loggable works
 
+
+                ActionExceptionService::store([
+                    'module'      => 'OrderManagement',
+                    'action'      => 'Updated',
+                    'centerId'      => 1 ,
+                    'remarks'     => $record, 
+                    'changeLog'      => $data,
+                ]);
                 return redirect()->route('orders.index')->with('success', 'Data Updated Successfully');
             }
             else{
@@ -142,7 +153,18 @@ public function store(StoreOrderNoRequest $request): RedirectResponse
           $record = OrderNo::find($id) ;  
              if($record){
                 $record->delete();
+
+                ActionExceptionService::store([
+                    'module'      => 'OrderManagement',
+                    'action'      => 'Deleted',
+                    'centerId'      => 1 ,
+                    'remarks'     => $record, 
+                    'changeLog'      =>  '',
+                ]);
+
                 return redirect()->route('orders.index')->with('success', 'Data deleted successfully.');
+
+
              } 
              else{
                  return redirect()->route('orders.index')->with('error', 'Data delete failed .');
@@ -156,66 +178,5 @@ public function store(StoreOrderNoRequest $request): RedirectResponse
     }
 
 
-    public function DevSvc(Device $device)
-    {
-         // dd($device->id);
-        try {
-            $device = Device::where('id',$device->id)->first() ; 
-            // dd($device) ; 
-
-            $DevSvc = DeviceSvc::where('devId', $device->id)->get() ; 
-              // dd($DevSvc) ; 
-            // $roles = Role::all();
-            $Service = Service::where('status',1)->latest()->get();
-            return view('pages.devices.DisplaySvc', compact('device','DevSvc', 'Service'));
-
-
-        } catch (\Exception $e) {
-            info('Operator Shop assignement!', [$e]);
-
-            return redirect()->route('devices.index')->with('error', 'device assignement failed!.');
-        }
-    }
-
-
-    public function updateAssign(Request $request)
-    {
-             // dd($request->all());
-     try {   
-        $dev = Device::where('id', $request->devId)->first() ; 
-
-        if($dev){
-            // dd('yes') ; 
-            // dd( $request->assigned_shops) ; 
-            DeviceSvc::where('devId',$request->devId)->delete();
-            $cn = count($request->assigned_devs) ; 
-            for($i=0; $i<$cn; $i++){
-                DeviceSvc::upsert(
-                    [
-                        [
-                            'centerId'      => $request->centerId,
-                            'devId'      => $request->devId,
-                            'svcId'     => $request->assigned_devs[$i],
-                            'rowcount'     => $request->rowcount[$i],
-                            'created_at' => Date('Y-m-d H:i:s'),
-                            'updated_at' => Date('Y-m-d H:i:s')
-                        ],
-                    ],
-                    ['centerId', 'devId', 'svcId'], // Unique keys to match
-                    ['updated_at']       // Columns to update if exists
-                );
-
-            }
-           return redirect()->route('devices.index')->with('success', $cn.' Record updated successfully.');
-        }
-        else{
-            return redirect()->route('devices.index')->with('error', 'Invalid Operator!.');
-        }
-
-      } catch (\Exception $e) {
-            info('Record deleted failed!', [$e]);
- dd($e->getMessage());
-            return redirect()->route('devices.index')->with('error', 'operation failed!.');
-        }
-    }
+ 
 }

@@ -1,19 +1,40 @@
 <!-- Header Overlay -->
 <div class="absolute top-0 left-0 w-full z-20">
-    <div class="bg-primary-opt backdrop-blur-md text-white py-4 f-topbar-area">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <!-- Logo / Title -->
-            <h1 class="text-2xl md:text-4xl font-bold"><a href="{{ URL::to('/') }}">{{ optional($menuList['metaInfo'])['comName'] ?? null }}</a></h1>
+    <div class="text-white py-4 backdrop-blur-md purple-front-topbar">
 
-            <!-- User Info & Actions -->
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+
+            <h1 class="text-2xl md:text-4xl font-bold">
+                <a href="{{ URL::to('/') }}">
+                    {{ optional($menuList['metaInfo'])['comName'] ?? null }}
+                </a>
+            </h1>
+
             <div class="flex items-center space-x-3 relative">
-      
-                   
-           
             </div>
+
         </div>
     </div>
 </div>
+ 
+<!-- <div class="absolute top-0 left-0 w-full z-20">
+    <div class="text-white py-4 f-topbar-area backdrop-blur-md"
+         style="background: linear-gradient(90deg, #9575cd 0%, #673ab7 55%, #4527a0 100%);">
+         
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+
+            <h1 class="text-2xl md:text-4xl font-bold">
+                <a href="{{ URL::to('/') }}">
+                    {{ optional($menuList['metaInfo'])['comName'] ?? null }}
+                </a>
+            </h1>
+
+            <div class="flex items-center space-x-3 relative">
+            </div>
+
+        </div>
+    </div>
+</div> -->
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

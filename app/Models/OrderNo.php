@@ -19,6 +19,11 @@ class OrderNo extends Model
     {
         return $this->belongsTo(Buyer::class,  'buyer');
     }
+    public function operationLists()
+    {
+        return $this->hasMany(OperationList::class, 'OrderCode', 'OrderCode')
+                    ->orderBy('OperationSeqNo');
+    }
 
     public function nodeIncentive()
     {

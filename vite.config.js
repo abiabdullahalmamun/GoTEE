@@ -13,7 +13,17 @@ export default defineConfig({
                  'resources/js/scripts/floor.js',    
                  'resources/js/scripts/line.js',   
                  'resources/js/scripts/orderNo.js',    
-                   'resources/js/scripts/qrCodePrint.js',    
+                  'resources/js/scripts/operationBank.js',    
+                  'resources/js/scripts/operationList.js',    
+                   'resources/js/scripts/qrCodePrint.js',
+                  'resources/js/scripts/egrade.js',    
+                   'resources/js/scripts/designation.js',    
+              'resources/js/scripts/edesignationtype.js',    
+                  'resources/js/scripts/operator.js',
+
+                'resources/js/scripts/sewingMachine.js',    
+              'resources/js/scripts/machineBrand.js',    
+                  'resources/js/scripts/machineType.js',
 
                 'resources/css/app.css',
                 'resources/css/frontend.css',
@@ -35,7 +45,7 @@ export default defineConfig({
                 'resources/js/scripts/sticker.js',
                  // 'resources/js/scripts/shop.js',
                  'resources/js/scripts/service.js',
-               'resources/js/scripts/operator.js',
+           
                 'resources/js/scripts/barcodeprint.js',
                  'resources/js/scripts/app_receive.js',
                   'resources/js/scripts/frp_receive.js',
